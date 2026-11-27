@@ -4,7 +4,7 @@ config BR2_MIPS_CPU_MIPS32
 	select BR2_MIPS_NAN_LEGACY
 config BR2_MIPS_CPU_MIPS32R2
 	bool
-	select BR2_MIPS_NAN_LEGACY
+	select BR2_MIPS_NAN_LEGACY if !BR2_mips_xburst2_q2
 config BR2_MIPS_CPU_MIPS32R3
 	bool
 	select BR2_MIPS_NAN_LEGACY
@@ -84,6 +84,14 @@ config BR2_mips_p5600
 	depends on !BR2_ARCH_IS_64
 	select BR2_MIPS_CPU_MIPS32R5
 	select BR2_MIPS_NAN_2008
+config BR2_mips_xburst2_q2
+	bool "XBurst2 Q2 (r2 userspace, NaN-2008)"
+	depends on !BR2_ARCH_IS_64
+	select BR2_MIPS_CPU_MIPS32R2
+	select BR2_MIPS_NAN_2008
+	help
+	  Conservative Q2 userspace ISA with the hardware NaN-2008 ABI.
+	  Configure hard-float and FP64; this is not the XBurst1 preset.
 config BR2_mips_xburst
 	bool "XBurst"
 	depends on !BR2_ARCH_IS_64
@@ -254,6 +262,7 @@ config BR2_GCC_TARGET_ARCH
 	default "m5101"		if BR2_mips_m5150
 	default "m6201"		if BR2_mips_m6250
 	default "p5600"		if BR2_mips_p5600
+	default "mips32r2"	if BR2_mips_xburst2_q2
 	default "mips32r2"	if BR2_mips_xburst
 	default "mips64"	if BR2_mips_64
 	default "mips64r2"	if BR2_mips_64r2
